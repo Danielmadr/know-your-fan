@@ -2,16 +2,8 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import {
-  Menu,
-  LogIn,
-  User,
-  LogOut,
-  MessageSquare,
-  UserPlus,
-  Home,
-} from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { Menu, LogIn, User, LogOut, MessageSquare } from "lucide-react";
 
 // Componentes do shadcn/ui
 import { Button } from "@/components/ui/button";
@@ -51,6 +43,7 @@ function NavItem({ href, label, icon, isActive }: NavItemProps) {
 
 export function NavBar() {
   const pathname = usePathname();
+  const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState<{ name?: string; username?: string } | null>(
     null
@@ -72,24 +65,28 @@ export function NavBar() {
     localStorage.removeItem("user");
     setIsLoggedIn(false);
     setUser(null);
-    // Opcionalmente, redirecione para a página inicial ou de login
+    // Redirecionar para a página de login após logout
+    router.push("/login");
   };
 
+  const handleLoginClick = () => {
+    router.push("/login");
+  };
+
+  // Removido o botão Home da barra de navegação
   const navItems = [
-    { href: "/", label: "Home", icon: <Home size={18} /> },
     {
       href: "/chat",
       label: "Chat com FURIA",
       icon: <MessageSquare size={18} />,
     },
-    { href: "/form", label: "Cadastro de Fã", icon: <UserPlus size={18} /> },
   ];
 
   return (
     <nav className="bg-black text-white sticky top-0 z-50 shadow-md">
       <div className="container mx-auto px-4">
         <div className="h-16 flex justify-between items-center">
-          {/* Logo */}
+          {/* Logo - agora serve como home button */}
           <Link href="/">
             <div className="flex items-center space-x-2">
               <img
@@ -121,7 +118,7 @@ export function NavBar() {
           </div>
 
           {/* Autenticação para desktop */}
-          <div className="hidden md:block">
+          <div className="hidden md:flex items-center space-x-2">
             {isLoggedIn ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -175,16 +172,26 @@ export function NavBar() {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Link href="/login">
+              <>
+                <Link href="/form">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="text-white border-white/30"
+                  >
+                    Cadastre-se
+                  </Button>
+                </Link>
                 <Button
                   variant="outline"
                   size="sm"
                   className="text-white border-white/30"
+                  onClick={handleLoginClick}
                 >
                   <LogIn className="mr-2 h-4 w-4" />
                   Login
                 </Button>
-              </Link>
+              </>
             )}
           </div>
 
@@ -247,13 +254,21 @@ export function NavBar() {
                       </button>
                     </>
                   ) : (
-                    <Link
-                      href="/login"
-                      className="flex items-center px-2 py-2 rounded-md hover:bg-zinc-800"
-                    >
-                      <LogIn className="h-5 w-5 mr-2" />
-                      Login
-                    </Link>
+                    <>
+                      <Link
+                        href="/form"
+                        className="flex items-center px-2 py-2 rounded-md hover:bg-zinc-800"
+                      >
+                        Cadastre-se
+                      </Link>
+                      <button
+                        onClick={handleLoginClick}
+                        className="flex items-center px-2 py-2 rounded-md hover:bg-zinc-800 w-full text-left mt-2"
+                      >
+                        <LogIn className="h-5 w-5 mr-2" />
+                        Login
+                      </button>
+                    </>
                   )}
                 </div>
               </div>

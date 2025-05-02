@@ -4,16 +4,16 @@ export async function POST(request: Request) {
   try {
     const { username, password } = await request.json();
 
-    // Aqui você implementaria a verificação real de credenciais
-    // Este é apenas um exemplo simplificado
-    if (username === "admin" && password === "password123") {
+    // Verificar credenciais - Aceitar admin/admin
+    if (username === "admin" && password === "admin") {
       return NextResponse.json({
         success: true,
-        user: { id: 1, username, name: "Administrador FURIA" },
-        token: "exemplo-token-jwt",
+        user: { id: 1, username: "admin", name: "Administrador FURIA" },
+        token: "exemplo-token-jwt-admin",
       });
     }
 
+    // Credenciais inválidas
     return NextResponse.json(
       { success: false, message: "Credenciais inválidas" },
       { status: 401 }
