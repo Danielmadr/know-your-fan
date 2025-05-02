@@ -3,22 +3,30 @@ import { NextResponse } from "next/server";
 export async function POST(request: Request) {
   try {
     const data = await request.json();
-    
-    // Aqui você processaria os dados, salvando em banco de dados, etc.
-    console.log("Data Collected:", data);
-    
-    // Simular processamento
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    return NextResponse.json({ 
-      success: true, 
-      message: "Dados salvos com sucesso!" 
+
+    const response = await fetch("http://localhost:4000/fan", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    const result = await response.json();
+
+    return NextResponse.json({
+      success: true,
+      message: "Dados enviados com sucesso para o backend!",
+      data: result,
     });
   } catch (error) {
-    console.error("Erro ao processar requisição:", error);
-    return NextResponse.json({ 
-      success: false, 
-      message: "Erro ao processar dados" 
-    }, { status: 500 });
+    console.error("Erro ao enviar para o backend:", error);
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Erro ao enviar os dados para o backend",
+      },
+      { status: 500 }
+    );
   }
 }

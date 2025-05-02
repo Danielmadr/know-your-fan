@@ -304,3 +304,11 @@ if __name__ == '__main__':
 // - Acessar painel de fãs em http://localhost:3000/dashboard
 
 // O fluxo agora inclui persistência no MongoDB, listagem de fãs e dashboard. Próxima etapa pode incluir OAuth ou analytics.
+
+Frontend (Next.js)
+   ↓ POST JSON
+Backend API (NestJS, MongoDB)
+   → Armazena os dados
+   → Envia para...
+IA API (Python)
+   → Analisa, gera variáveis e retorna para atualização no MongoDB
