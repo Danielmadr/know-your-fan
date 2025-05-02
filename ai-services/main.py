@@ -1,8 +1,15 @@
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, UploadFile, File, Depends, HTTPException, status
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from pydantic import BaseModel
 from typing import List, Optional
+import secrets
 
 app = FastAPI()
+security = HTTPBasic()
+
+# Simulação de usuário e senha
+VALID_USERNAME = "furia_admin"
+VALID_PASSWORD = "senha_secreta"
 
 class FanData(BaseModel):
     fullName: str
@@ -25,9 +32,18 @@ class FanData(BaseModel):
     exclusiveContent: Optional[str] = None
     message: Optional[str] = None
 
+def verify_credentials(credentials: HTTPBasicCredentials = Depends(security)):
+    correct_username = secrets.compare_digest(credentials.username, VALID_USERNAME)
+    correct_password = secrets.compare_digest(credentials.password, VALID_PASSWORD)
+    if not (correct_username and correct_password):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Credenciais inválidas",
+            headers={"WWW-Authenticate": "Basic"},
+        )
+
 @app.post("/analyze")
-async def analyze_fan(fan: FanData):
-    # Simulação de análise por IA
+async def analyze_fan(fan: FanData, credentials: HTTPBasicCredentials = Depends(verify_credentials)):
     fanType = "super fã" if len(fan.socials) > 3 and "Tudo que a FURIA posta, eu curto" in fan.content else "casual"
     engagementScore = min(100, len(fan.content) * 15)
     contentPreference = max(set(fan.content), key=fan.content.count) if fan.content else "Indefinido"
