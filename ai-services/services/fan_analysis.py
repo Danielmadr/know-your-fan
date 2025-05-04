@@ -101,10 +101,10 @@ def analyze_fan_data(fan: FanData, selfie_path: str, document_path: str , ) -> F
     fan.selfieStatus = selfieResponse.get("selfieStatus")
     fan.selfieMatchScore = selfieResponse.get("selfieMatchScore")
 
-    if fan.selfieStatus == "rejected" and fan.documentStatus == "rejected":
+    if fan.selfieStatus in ["rejected", None] and fan.documentStatus in ["rejected", None]:
         fan.fanStatus = "verified fail"
-    elif fan.selfieStatus == "rejected" or fan.documentStatus == "rejected":
-        fan.fanStatus = "verified partial"    
+    elif fan.selfieStatus in ["rejected", None] or fan.documentStatus in ["rejected", None]:
+        fan.fanStatus = "verified partial"
     elif fan.selfieStatus == "verified" and fan.documentStatus == "verified":
         fan.fanStatus = "verified success"
 
