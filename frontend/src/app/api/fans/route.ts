@@ -4,7 +4,9 @@ export async function POST(request: Request) {
   try {
     const data = await request.json();
 
-    const response = await fetch("http://localhost:4000/fan", {
+    console.log("Dados recebidos:", data);
+
+    const response = await fetch("http://localhost:4000/fans", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
