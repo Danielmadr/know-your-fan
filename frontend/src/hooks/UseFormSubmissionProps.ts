@@ -6,26 +6,34 @@ interface UseFormSubmissionProps {
   url: string;
 }
 
+/**
+ * Hook para gerenciar envio de formulários com suporte a arquivos
+ */
 export function useFormSubmission({ url }: UseFormSubmissionProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<null | "success" | "error">(
     null
   );
 
-  const submitForm = async (data: any) => {
+  const submitForm = async (data: FormData | any) => {
     setIsSubmitting(true);
     try {
-      // Para arquivos, use FormData em vez de JSON
+      // Configuração da requisição baseada no tipo de dados
       let body;
       let headers = {};
 
       if (data instanceof FormData) {
+        // Se for FormData, envia diretamente - ideal para arquivos
         body = data;
+        // Não definir Content-Type para FormData, pois o navegador irá adicionar
+        // o boundary correto automaticamente
       } else {
+        // Para dados simples, usar JSON
         body = JSON.stringify(data);
         headers = { "Content-Type": "application/json" };
       }
 
+      // Enviar a requisição
       const response = await fetch(url, {
         method: "POST",
         body,

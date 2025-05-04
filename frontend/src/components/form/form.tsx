@@ -29,27 +29,22 @@ export default function FanForm() {
   // Handlers
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
+    // Criar um FormData para enviar ao backend
     const formData = new FormData(e.target as HTMLFormElement);
-    const json: FormData = {};
-
-    for (const [key, value] of formData.entries()) {
-      if (json[key]) {
-        if (Array.isArray(json[key])) {
-          (json[key] as string[]).push(value as string);
-        } else {
-          json[key] = [json[key] as string, value as string];
-        }
-      } else {
-        json[key] = value as string | File;
-      }
+    
+    // Adicionar o CPF formatado corretamente
+    formData.delete('cpfDisplay'); // Remove o CPF formatado para display
+    formData.set('cpf', cpf); // Adiciona o CPF sem formatação
+    
+    // Em vez de transformar em JSON, usar o FormData diretamente
+    console.log("Dados enviados para o backend (FormData)");
+    
+    try {
+      await submitForm(formData);
+    } catch (error) {
+      console.error("Erro ao enviar formulário:", error);
     }
-
-    json.cpf = cpf;
-
-    // Imprime os dados que serão enviados para o backend
-    console.log("Dados enviados para o backend:", json);
-
-    await submitForm(json);
   };
 
   const handleCpfChange = (e: ChangeEvent<HTMLInputElement>) => {
