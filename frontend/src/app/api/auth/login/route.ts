@@ -13,11 +13,23 @@ export async function POST(request: Request) {
       });
     }
 
-    // Credenciais inválidas
-    return NextResponse.json(
-      { success: false, message: "Credenciais inválidas" },
-      { status: 401 }
-    );
+    // Caso não seja admin/admin, fazer requisição para a API externa
+    const externalResponse = await fetch("http://localhost:4000/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    });
+
+    const externalData = await externalResponse.json();
+
+    // Retornar a resposta da API externa
+
+    return NextResponse.json({
+      success: true,
+      user: { id: 1, username: externalData.nickname , name: externalData.name },
+      token: "exemplo-token-jwt-user",
+      personalChatbot: externalData.personalChatbot,
+    });
   } catch (error) {
     console.error("Erro durante login:", error);
     return NextResponse.json(

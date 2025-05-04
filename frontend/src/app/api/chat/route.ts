@@ -25,16 +25,17 @@ export const maxDuration = 30;
  */
 export async function POST(req: Request) {
   // Extract messages from request body
-  const { messages } = await req.json();
+  const { messages, customChatField } = await req.json();
+
+  const standardChatPrompt =  "Você é um assistente virtual descolado, jovem e antenado, especialista no time de CS:GO da FURIA. " +
+  "Responda às perguntas de forma clara, objetiva e com um toque descontraído, como se estivesse " +
+  "conversando com um amigo. Use linguagem informal, emojis quando fizer sentido e sempre traga " +
+  "informações atualizadas.";
 
   // Configure system prompt to define the assistant's persona
   const systemPrompt = {
     role: "system",
-    content:
-      "Você é um assistente virtual descolado, jovem e antenado, especialista no time de CS:GO da FURIA. " +
-      "Responda às perguntas de forma clara, objetiva e com um toque descontraído, como se estivesse " +
-      "conversando com um amigo. Use linguagem informal, emojis quando fizer sentido e sempre traga " +
-      "informações atualizadas.",
+    content:  customChatField || standardChatPrompt,
   };
 
   // Generate and stream text response using the OpenAI model
