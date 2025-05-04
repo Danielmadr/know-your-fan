@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { LogIn, Eye, EyeOff } from "lucide-react";
+import AvatarIcon from "../icons/AvatarIcon";
 
 export default function LoginForm() {
   const [formData, setFormData] = useState({ username: "", password: "" });
@@ -48,9 +49,12 @@ export default function LoginForm() {
       console.log("Login bem-sucedido:", data);
       localStorage.setItem("auth_token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
-      
-      // Redireciona para a página de chat após login bem-sucedido
-      router.push("/chat");
+
+      if (data.user.username === "admin") {
+        router.push("/dashboard");
+      } else {
+        router.push("/chat");
+      }
     } catch (err) {
       console.error("Erro de login:", err);
       setError(err instanceof Error ? err.message : "Falha ao realizar login");
@@ -69,15 +73,14 @@ export default function LoginForm() {
       <div className="flex w-full lg:w-1/2 flex-col justify-center items-center bg-background dark:bg-zinc-900 px-4 py-8">
         <div className="w-full max-w-md px-4 sm:px-8">
           <div className="mb-8 text-center">
-            <img
-              src="/furia-logo.png"
-              alt="FURIA Logo"
-              className="h-16 mx-auto mb-4"
-              onError={(e) => {
-                e.currentTarget.src =
-                  "https://placehold.co/80x80/black/white?text=FURIA";
-              }}
-            />
+            <div className="h-24 w-24 mx-auto mb-4 flex items-center justify-center">
+              <AvatarIcon
+                lightColor="#000000"
+                darkColor="#ffffff"
+                className="pointer-events-none"
+                viewBox="0 0 750 750"
+              />
+            </div>
             <h1 className="text-3xl font-bold text-foreground dark:text-white">
               Bem-vindo à FURIA
             </h1>
@@ -87,7 +90,7 @@ export default function LoginForm() {
           </div>
 
           {error && (
-            <div 
+            <div
               className="p-3 bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 rounded-md text-sm mb-6"
               role="alert"
               aria-live="assertive"
@@ -98,8 +101,8 @@ export default function LoginForm() {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
-              <Label 
-                htmlFor="username" 
+              <Label
+                htmlFor="username"
                 className="text-foreground dark:text-gray-300"
               >
                 Usuário
@@ -119,8 +122,8 @@ export default function LoginForm() {
             </div>
 
             <div className="space-y-2">
-              <Label 
-                htmlFor="password" 
+              <Label
+                htmlFor="password"
                 className="text-foreground dark:text-gray-300"
               >
                 Senha
@@ -157,9 +160,25 @@ export default function LoginForm() {
             >
               {isLoading ? (
                 <span className="flex items-center justify-center">
-                  <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  <svg
+                    className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
                   </svg>
                   Entrando...
                 </span>
@@ -178,9 +197,11 @@ export default function LoginForm() {
               >
                 Esqueci minha senha
               </Link>
-              <span className="mx-2 text-muted-foreground dark:text-gray-500">•</span>
-              <Link 
-                href="/form" 
+              <span className="mx-2 text-muted-foreground dark:text-gray-500">
+                •
+              </span>
+              <Link
+                href="/form"
                 className="text-blue-600 hover:underline dark:text-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-sm"
               >
                 Cadastrar-se
@@ -192,7 +213,7 @@ export default function LoginForm() {
 
       {/* Lado direito - Imagem/Decoração */}
       <div className="hidden lg:block w-1/2 bg-black">
-        <div 
+        <div
           className="h-full w-full bg-[url('/bg-login.jpg')] bg-cover bg-center relative"
           role="img"
           aria-label="Imagem decorativa FURIA"

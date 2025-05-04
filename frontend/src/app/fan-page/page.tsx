@@ -3,33 +3,36 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { Table, TableHead, TableRow, TableCell, TableBody, TableHeader } from "@/components/ui/table";
 
 const fanData = {
-  name: "Lucas Silva",
-  cpf: "123.456.789-00",
-  address: "Rua dos Campeões, 100 - São Paulo/SP",
-  interests: ["FURIA", "CBLOL", "CS2", "Valorant"],
-  events: ["FURIA FanFest 2024", "CBLOL Final 2023"],
-  purchases: ["Camiseta FURIA", "Ticket Meet & Greet"],
+  name: "Daniel Martins de Andrade",
+  cpf: "174.636.720-17",
+  address: "Rua Exemplo, 123 - São José dos Campos/SP",
+  interests: [
+    "League of Legends",
+    "Clipes de jogada insana",
+    "Bastidores dos jogadores",
+    "Memes e zoeiras",
+    "Notícias e atualizações dos jogos",
+    "Lives/Streams",
+    "Tudo que a FURIA posta, eu curto"
+  ],
+  events: ["Presencial", "Online"],
+  purchases: ["Já comprou e usa com orgulho"],
   social: {
-    twitter: "@lucasfurioso",
-    instagram: "@lucasfurioso_ig",
-    youtube: "Lucas Furia Clips",
-    engagementScore: 82,
-    fanType: "Hardcore",
+    twitter: "",
+    instagram: "",
+    youtube: "",
+    engagementScore: 85,
+    fanType: "Super Fã",
   },
   documents: {
     selfieMatch: true,
     documentMatch: true,
   },
-  profiles: [
-    { link: "https://www.hltv.org/user/123", relevant: true },
-    { link: "https://liquipedia.net/csgo/FURIA", relevant: true },
-    { link: "https://exemplo.com/pessoal", relevant: false },
-  ]
+  profiles: [],
 };
 
 export default function DashboardPage() {
