@@ -24,11 +24,12 @@ export async function POST(request: Request) {
 
     // Retornar a resposta da API externa
 
+    global.personalPrompt = externalData.personalChatbot;
+
     return NextResponse.json({
       success: true,
-      user: { id: 1, username: externalData.nickname , name: externalData.name },
+      user: { id: 1, username: externalData.nickname, name: externalData.name },
       token: "exemplo-token-jwt-user",
-      personalChatbot: externalData.personalChatbot,
     });
   } catch (error) {
     console.error("Erro durante login:", error);
