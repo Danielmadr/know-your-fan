@@ -46,6 +46,9 @@ export default function FanForm() {
 
     json.cpf = cpf;
 
+    // Imprime os dados que serão enviados para o backend
+    console.log("Dados enviados para o backend:", json);
+
     await submitForm(json);
   };
 
