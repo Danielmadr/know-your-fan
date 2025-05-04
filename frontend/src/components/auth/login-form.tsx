@@ -37,6 +37,10 @@ export default function LoginForm() {
 
       const data = await response.json();
 
+      if (data.success) {
+        localStorage.setItem("personalChatbot", data.personalChatbot);
+      }
+
       if (!response.ok) {
         throw new Error(data.message || "Erro ao fazer login");
       }
