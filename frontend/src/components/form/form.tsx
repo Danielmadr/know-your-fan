@@ -263,12 +263,12 @@ export default function FanForm() {
       {/* Documentos */}
       <div className="space-y-4">
         <div>
-          <Label htmlFor="document">Documento com foto</Label>
+          <Label htmlFor="document">Documento com foto (RG)</Label>
           <Input
             id="document"
             name="document"
             type="file"
-            accept="image/*,.pdf"
+            accept="image/*"
             required
           />
         </div>
@@ -333,9 +333,9 @@ export default function FanForm() {
 
       {/* Perfis e redes */}
       <div>
-        <Label>Links de perfis em sites de e-sports</Label>
-        <Input name="faceit" placeholder="Faceit" className="mb-2" />
-        <Input name="hltv" placeholder="HLTV" className="mb-2" />
+        <Label>Links de perfis em redes sociais</Label>
+        <Input name="Instagram" placeholder="Instagram" className="mb-2" />
+        <Input name="X/Twitter" placeholder="X/Twitter" className="mb-2" />
         <Input name="others" placeholder="Outros (Reddit, Discord...)" />
       </div>
 
