@@ -12,14 +12,12 @@ export default function AuthLayout({
 }) {
   const pathname = usePathname();
   const router = useRouter();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   // Verificar se o usuário está autenticado
   useEffect(() => {
     const checkAuth = () => {
       const token = localStorage.getItem("auth_token");
-      setIsAuthenticated(!!token);
       setIsLoading(false);
 
       // Lista de rotas públicas que não exigem autenticação

@@ -15,7 +15,7 @@ export function useFormSubmission({ url }: UseFormSubmissionProps) {
     null
   );
 
-  const submitForm = async (data: FormData | any) => {
+  const submitForm = async (data: FormData | Record<string, unknown>) => {
     setIsSubmitting(true);
     try {
       // Configuração da requisição baseada no tipo de dados
