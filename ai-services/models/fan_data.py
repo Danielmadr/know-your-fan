@@ -9,13 +9,13 @@ class FanData(BaseModel):
     email: str
     username: str
     password: str
-    cpfDisplay: str
+    cpfDisplay: Optional[str] = None
     cpf: str
     location: str
     socials: List[str]
     ecommerce: List[str]
     content: List[str]
-    influencers: Optional[str] = None
+    influencers: Optional[List[str]] = None  # Permite lista de strings    
     events: Optional[str] = None
     favoriteGame: Optional[str] = None
     instagram: Optional[str] = None

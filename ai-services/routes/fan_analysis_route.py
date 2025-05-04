@@ -6,7 +6,7 @@ import json
 
 router = APIRouter()
 
-@router.post("/fanAnalyze/", summary="Analisar perfil do fã")
+@router.post("/", summary="Analisar perfil do fã")
 async def analyze_fan(
     data: str = Form(..., description="JSON com os dados do fã"),
     document: UploadFile = File(..., description="Upload do documento do fã"),
