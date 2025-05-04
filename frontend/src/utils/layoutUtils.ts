@@ -26,10 +26,10 @@ const MOBILE_BREAKPOINT = 768;
 const MOBILE_TOP_OFFSET_PERCENTAGE = 0.1;
 
 /** Divisor that controls horizontal positioning on desktop views */
-const DESKTOP_HORIZONTAL_DIVISOR = 5;
+const DESKTOP_HORIZONTAL_DIVISOR = 6;
 
 /** Divisor that controls vertical positioning on desktop views */
-const DESKTOP_VERTICAL_DIVISOR = 4;
+const DESKTOP_VERTICAL_DIVISOR = 1.5;
 
 /**
  * Calculates the initial position and size of a UI element based on the current viewport

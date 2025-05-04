@@ -9,10 +9,6 @@ import { Info } from "lucide-react";
 import { CheckboxGroup } from "./checkBoxGroup";
 import { useFormSubmission } from "@/hooks/UseFormSubmissionProps";
 
-interface FormData {
-  [key: string]: string | string[] | File;
-}
-
 export default function FanForm() {
   // Estados
   const [cpf, setCpf] = useState("");
