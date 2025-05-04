@@ -38,8 +38,6 @@ export class FanService {
       formData.append('selfie', fs.createReadStream(files.selfiePath)); // Adiciona o arquivo da selfie
     }
 
-    console.log('Enviando dados para o serviço de IA:', formData);
-
     try {
       // Fazendo a requisição para o serviço de IA
       const response = await axios.post(

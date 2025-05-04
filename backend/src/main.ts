@@ -7,8 +7,9 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Know Your Fan API')
-    .setDescription('API para coleta e análise de dados de fãs de esports')
+    .setDescription('API para autenticação e gerenciamento de fãs de esports')
     .setVersion('1.0')
+    .addTag('Auth', 'Endpoints relacionados à autenticação')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
