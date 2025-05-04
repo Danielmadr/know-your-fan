@@ -19,6 +19,7 @@ export class AuthService {
     }
 
     return {
+      name: fan.fullName,
       nickname: fan.nickname,
       personalChatbot: fan.personalChatbot,
     };
