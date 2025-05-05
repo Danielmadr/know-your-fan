@@ -152,13 +152,6 @@ Cada subprojeto possui seu próprio `README.md`. Acesse:
 3. Relatórios de distribuição geográfica e preferências
 4. Identificação de oportunidades de monetização
 
-## 📊 Demonstração
-
-<div align="center">
-  <img src="frontend/screenshots/homePage_DarkTheme.png" alt="Interface do FALAFURIA" width="80%"/>
-  <p><em>Interface do Chatbot FALAFURIA</em></p>
-</div>
-
 ## 📈 Roadmap
 
 - [ ] **Integração com APIs de Redes Sociais**
