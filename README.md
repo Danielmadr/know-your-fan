@@ -99,17 +99,7 @@ Serviço dedicado de inteligência artificial responsável por:
 
 ## 🔄 Fluxo de Dados
 
-```mermaid
-graph LR
-  A[Frontend
-(Next.js)] --> B[Backend
-(NestJS)]
-  B --> C[AI Service
-(FastAPI + Python)]
-  C --> B
-  B --> D[Database
-(MongoDB)]
-```
+![Fluxo de Dados](screenshots/image.png)
 
 ## 🧰 Tecnologias Utilizadas
 
