@@ -1,314 +1,193 @@
-# Know Your Fan
 
-## Como rodar o projeto
-
-1. Clone o repositório
-2. Execute `docker-compose up --build`
-3. Acesse o frontend em `http://localhost:3000`
-
-Esse projeto usa Next.js, NestJS e Flask com Python para criar um perfil de fã de eSports.
+<h1 align="center">Know Your Fan</h1>
+<p align="center">
+  Plataforma integrada para gestão e engajamento de fãs de eSports.
+</p>
 
 
-// Estrutura inicial combinando Next.js (frontend), NestJS (API) e Python (serviços de IA)
+<p align="center">
+  <img src="https://img.shields.io/badge/Node.js-Backend-green?logo=node.js" />
+  <img src="https://img.shields.io/badge/NestJS-Framework-red?logo=nestjs" />
+  <img src="https://img.shields.io/badge/MongoDB-Database-brightgreen?logo=mongodb" />
+  <img src="https://img.shields.io/badge/FastAPI-AI%20API-teal?logo=fastapi" />
+  <img src="https://img.shields.io/badge/Python-AI-blue?logo=python" />
+  <img src="https://img.shields.io/badge/Next.js-Frontend-black?logo=next.js" />
+  <img src="https://img.shields.io/badge/TypeScript-Language-blue?logo=typescript" />
+</p>
 
-// --- Estrutura de pastas sugerida:
+---
 
-/know-your-fan
-├── frontend/              # Next.js app
-├── backend/               # NestJS API
-├── ai-services/           # Python IA para validações e análises
-├── docker-compose.yml     # Orquestração dos containers
-├── README.md
+O **Know Your Fan** é uma plataforma completa que conecta fãs de eSports a experiências personalizadas, utilizando uma arquitetura moderna com análise de IA e banco de dados em nuvem. A solução permite a criação de perfis ricos de fãs, baseados em dados reais e documentos validados.
 
-// --- docker-compose.yml (resumo da orquestração)
+## ✨ Principais Recursos
 
-version: '3.9'
-services:
-  frontend:
-    build: ./frontend
-    ports:
-      - "3000:3000"
-    depends_on:
-      - backend
+<details>
+<summary>🤖 Chatbot Personalizado</summary>
+<br>
 
-  backend:
-    build: ./backend
-    ports:
-      - "4000:4000"
-    depends_on:
-      - ai
-    environment:
-      - MONGO_URL=mongodb://mongo:27017/fans
+- **Interface interativa e arrastável**
+- **Personalização baseada no perfil do usuário**
+- **Suporte a perguntas frequentes organizadas**
+- **Adaptação de tema claro/escuro**
+</details>
 
-  ai:
-    build: ./ai-services
-    ports:
-      - "5000:5000"
+<details>
+<summary>👤 Verificação de Identidade</summary>
+<br>
 
-  mongo:
-    image: mongo:latest
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo_data:/data/db
+- **Validação facial com comparação selfie/documento**
+- **Análise de documentos oficiais brasileiros**
+- **Verificação segura e privada**
+- **Relatórios detalhados de validação**
+</details>
 
-volumes:
-  mongo_data:
+<details>
+<summary>📊 Análise de Perfil</summary>
+<br>
 
-// --- frontend (Next.js com TypeScript) - comandos iniciais
-// npx create-next-app@latest frontend --typescript
-// cd frontend && npm install axios
+- **Classificação por tipo de fã**
+- **Pontuação de engajamento**
+- **Potencial de monetização**
+- **Preferências de conteúdo**
+</details>
 
-// Criar arquivo frontend/pages/index.tsx com o seguinte conteúdo:
+<details>
+<summary>📱 Portal do Fã</summary>
+<br>
 
-import { useState, ChangeEvent, FormEvent } from 'react';
-import axios from 'axios';
-import Link from 'next/link';
+- **Perfil personalizado**
+- **Integração com redes sociais**
+- **Status de verificação**
+- **Recomendações de conteúdo**
+</details>
 
-interface FormData {
-  name: string;
-  cpf: string;
-  email: string;
-  document: File | null;
-}
+<details>
+<summary>🧮 Dashboard Analítico</summary>
+<br>
 
-export default function Home() {
-  const [form, setForm] = useState<FormData>({
-    name: '',
-    cpf: '',
-    email: '',
-    document: null,
-  });
+- **Visualizações interativas de dados**
+- **Métricas de engajamento**
+- **Distribuição geográfica**
+- **Preferências de conteúdo**
+</details>
 
-  const [loading, setLoading] = useState(false);
+## 🚀 Componentes Principais
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value, files } = e.target;
-    setForm({
-      ...form,
-      [name]: files ? files[0] : value,
-    } as FormData);
-  };
+### 🔵 [Frontend - Next.js](./frontend/README.md)
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    const formData = new FormData();
-    if (form.document) formData.append('document', form.document);
+Interface amigável e responsiva para os fãs se cadastrarem, interagirem e visualizarem seu perfil personalizado. Desenvolvida com **Next.js** e integra com a API backend para envio de dados e arquivos.
 
-    try {
-      const response = await axios.post('http://localhost:5000/validate-id', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+- Upload de documentos e selfies
+- Formulários interativos de registro
+- Exibição de chatbot e recomendações personalizadas
 
-      const extractedText = response.data.extracted_text;
+### 🟢 [Backend - NestJS](./backend/README.md)
 
-      await axios.post('http://localhost:4000/fans', {
-        name: form.name,
-        cpf: form.cpf,
-        email: form.email,
-        documentText: extractedText,
-      });
+API REST robusta desenvolvida com **NestJS** que gerencia autenticação, persistência dos dados dos fãs e comunicação com o serviço de IA.
 
-      alert(`Cadastro enviado com sucesso! Texto extraído: ${extractedText}`);
-      setForm({ name: '', cpf: '', email: '', document: null });
-    } catch (err) {
-      console.error(err);
-      alert('Erro ao enviar dados. Verifique os serviços e tente novamente.');
-    } finally {
-      setLoading(false);
-    }
-  };
+- Autenticação e registro de fãs
+- Processamento de arquivos (documentos/selfies)
+- Integração com MongoDB e serviço de IA
 
-  return (
-    <div style={{ padding: '2rem' }}>
-      <Link href="/dashboard">Ir para o Dashboard</Link>
-      <h1>Cadastro de Fã de eSports</h1>
-      <form onSubmit={handleSubmit}>
-        <input name="name" placeholder="Nome" value={form.name} onChange={handleChange} required /><br />
-        <input name="cpf" placeholder="CPF" value={form.cpf} onChange={handleChange} required /><br />
-        <input name="email" type="email" placeholder="Email" value={form.email} onChange={handleChange} required /><br />
-        <input name="document" type="file" accept="image/*,application/pdf" onChange={handleChange} required /><br />
-        <button type="submit" disabled={loading}>{loading ? 'Enviando...' : 'Enviar'}</button>
-      </form>
-    </div>
-  );
-}
+### 🤖 [Serviço de IA - FastAPI + Python](./ai-service/README.md)
 
-// Criar arquivo frontend/pages/dashboard.tsx com o seguinte conteúdo:
+Serviço dedicado de inteligência artificial responsável por:
 
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import Link from 'next/link';
+- Verificação de documento e rosto (biometria facial)
+- Análise de perfil de engajamento
+- Classificação do tipo de fã e potencial de receita
 
-interface Fan {
-  name: string;
-  cpf: string;
-  email: string;
-  documentText: string;
-}
+## 🔄 Fluxo de Dados
 
-export default function Dashboard() {
-  const [fans, setFans] = useState<Fan[]>([]);
-  const [loading, setLoading] = useState(true);
+```mermaid
+graph LR
+  A[Frontend
+(Next.js)] --> B[Backend
+(NestJS)]
+  B --> C[AI Service
+(FastAPI + Python)]
+  C --> B
+  B --> D[Database
+(MongoDB)]
+```
 
-  useEffect(() => {
-    axios.get('http://localhost:4000/fans')
-      .then(response => setFans(response.data))
-      .catch(err => console.error('Erro ao carregar fãs:', err))
-      .finally(() => setLoading(false));
-  }, []);
+## 🧰 Tecnologias Utilizadas
 
-  return (
-    <div style={{ padding: '2rem' }}>
-      <Link href="/">Voltar</Link>
-      <h1>Dashboard de Fãs</h1>
-      {loading ? (
-        <p>Carregando...</p>
-      ) : fans.length === 0 ? (
-        <p>Nenhum fã cadastrado.</p>
-      ) : (
-        <table border="1" cellPadding="10" cellSpacing="0">
-          <thead>
-            <tr>
-              <th>Nome</th>
-              <th>CPF</th>
-              <th>Email</th>
-              <th>Texto do Documento</th>
-            </tr>
-          </thead>
-          <tbody>
-            {fans.map((fan, index) => (
-              <tr key={index}>
-                <td>{fan.name}</td>
-                <td>{fan.cpf}</td>
-                <td>{fan.email}</td>
-                <td style={{ maxWidth: '300px' }}>{fan.documentText}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-    </div>
-  );
-}
+| Camada       | Tecnologias                                             |
+| ------------ | ------------------------------------------------------- |
+| **Backend**  | NestJS · MongoDB · Mongoose · Multer · Swagger · Axios  |
+| **Frontend** | Next.js · TypeScript · TailwindCSS · Zustand            |
+| **AI**       | FastAPI · Python · OpenCV · Face Recognition · Pydantic |
+| **DevOps**   | Railway     |
 
-// --- backend (NestJS) - comandos iniciais
-// nest new backend
-// cd backend && npm install @nestjs/axios mongoose @nestjs/mongoose
 
-// Criar módulo e schema para Fan
+## 📦 Estrutura do Projeto
 
-// backend/src/fans/schemas/fan.schema.ts
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+```
+know-your-fan/
+├── frontend/       # Projeto em Next.js
+├── backend/        # API em NestJS
+└── ai-service/     # Serviço de IA em FastAPI + Python
+```
 
-@Schema()
-export class Fan extends Document {
-  @Prop() name: string;
-  @Prop() cpf: string;
-  @Prop() email: string;
-  @Prop() documentText: string;
-}
+## 📄 Documentação
 
-export const FanSchema = SchemaFactory.createForClass(Fan);
+Cada subprojeto possui seu próprio `README.md`. Acesse:
 
-// backend/src/fans/fans.service.ts
-import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { Fan } from './schemas/fan.schema';
+- [`frontend/README.md`](./frontend/README.md)
+- [`backend/README.md`](./backend/README.md)
+- [`ai-service/README.md`](./ai-service/README.md)
 
-@Injectable()
-export class FansService {
-  constructor(@InjectModel(Fan.name) private fanModel: Model<Fan>) {}
+## 📝 Fluxos de Usuários
 
-  async create(data: Partial<Fan>): Promise<Fan> {
-    return this.fanModel.create(data);
-  }
+### Registro e Verificação
 
-  async findAll(): Promise<Fan[]> {
-    return this.fanModel.find().exec();
-  }
-}
+1. Usuário preenche formulário com dados básicos
+2. Upload de documento de identidade e selfie
+3. Sistema verifica identidade através de reconhecimento facial
+4. Análise de perfil classifica o tipo de fã
+5. Usuário recebe acesso ao portal personalizado
 
-// backend/src/fans/fans.controller.ts
-import { Controller, Post, Get, Body } from '@nestjs/common';
-import { FansService } from './fans.service';
+### Interação com Chatbot
 
-@Controller('fans')
-export class FansController {
-  constructor(private readonly fansService: FansService) {}
+1. Usuário acessa o portal e inicia conversa
+2. Chatbot personalizado responde com base no perfil
+3. Sugestões de perguntas frequentes específicas para o tipo de fã
+4. Integração com eventos e notícias da FURIA
 
-  @Post()
-  create(@Body() fanData: any) {
-    return this.fansService.create(fanData);
-  }
+### Análise para Administradores
 
-  @Get()
-  findAll() {
-    return this.fansService.findAll();
-  }
-}
+1. Administrador acessa dashboard analítico
+2. Visualização de métricas de engajamento da base de fãs
+3. Relatórios de distribuição geográfica e preferências
+4. Identificação de oportunidades de monetização
 
-// backend/src/app.module.ts - adicionar importações
-import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
-import { Fan, FanSchema } from './fans/schemas/fan.schema';
-import { FansController } from './fans/fans.controller';
-import { FansService } from './fans/fans.service';
+## 📊 Demonstração
 
-@Module({
-  imports: [
-    MongooseModule.forRoot(process.env.MONGO_URL),
-    MongooseModule.forFeature([{ name: Fan.name, schema: FanSchema }]),
-  ],
-  controllers: [FansController],
-  providers: [FansService],
-})
-export class AppModule {}
+<div align="center">
+  <img src="frontend/screenshots/homePage_DarkTheme.png" alt="Interface do FALAFURIA" width="80%"/>
+  <p><em>Interface do Chatbot FALAFURIA</em></p>
+</div>
 
-// --- ai-services (Python) - comandos iniciais
-// mkdir ai-services && cd ai-services
-// python -m venv venv && source venv/bin/activate
-// pip install flask transformers pytesseract face-recognition
+## 📈 Roadmap
 
-// Criar app.py no ai-services com endpoints de validação
+- [ ] **Integração com APIs de Redes Sociais**
+- [ ] **Análise de Vídeo para Reconhecimento de Emoções**
+- [ ] **Gamificação e Sistema de Recompensas**
+- [ ] **Personalização Avançada do Chatbot**
+- [ ] **Suporte a Múltiplos Idiomas**
+- [ ] **App Móvel via PWA**
+- [ ] **Dashboard Administrativo Expandido**
 
-from flask import Flask, request, jsonify
-import pytesseract
-from PIL import Image
-import io
+## 🙏 Agradecimentos
 
-app = Flask(__name__)
+- Equipe da FURIA Esports
+- Comunidades de Next.js, NestJS e FastAPI
+- OpenAI pela tecnologia de processamento de linguagem natural
+- Contribuidores do projeto face_recognition
 
-@app.route('/validate-id', methods=['POST'])
-def validate_id():
-    file = request.files['document']
-    img_bytes = file.read()
-    img = Image.open(io.BytesIO(img_bytes))
-    text = pytesseract.image_to_string(img)
-    return jsonify({"extracted_text": text})
+---
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
-
-// README.md conterá instruções para:
-// - Clonar o projeto
-// - Executar docker-compose up
-// - Acessar frontend em http://localhost:3000
-// - Enviar documento via frontend
-// - Ver lista de fãs cadastrados via GET http://localhost:4000/fans
-// - Acessar painel de fãs em http://localhost:3000/dashboard
-
-// O fluxo agora inclui persistência no MongoDB, listagem de fãs e dashboard. Próxima etapa pode incluir OAuth ou analytics.
-
-Frontend (Next.js)
-   ↓ POST JSON
-Backend API (NestJS, MongoDB)
-   → Armazena os dados
-   → Envia para...
-IA API (Python)
-   → Analisa, gera variáveis e retorna para atualização no MongoDB
+<p align="center">
+  Feito com ❤️ para fãs de eSports.
+</p>
