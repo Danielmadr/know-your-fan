@@ -19,6 +19,19 @@
 
 O **Know Your Fan** é uma plataforma completa que conecta fãs de eSports a experiências personalizadas, utilizando uma arquitetura moderna com análise de IA e banco de dados em nuvem. A solução permite a criação de perfis ricos de fãs, baseados em dados reais e documentos validados.
 
+## 🌐 Acesse o Projeto
+
+Veja o projeto rodando ao vivo:
+🔗 [falafuria-daniels-projects-10b6ebbe.vercel.app](https://nextjs-known-your-fan.vercel.app)
+
+### 🔐 Credenciais de Acesso
+
+* **Administrador**:
+  `admin` / `admin`
+
+* **Usuário comum**:
+  `daniel` / `user123`
+
 ## ✨ Principais Recursos
 
 <details>
