@@ -126,7 +126,7 @@ Cada subprojeto possui seu próprio `README.md`. Acesse:
 
 - [`frontend/README.md`](./frontend/README.md)
 - [`backend/README.md`](./backend/README.md)
-- [`ai-service/README.md`](./ai-service/README.md)
+- [`ai-service/README.md`](./ai-services/README.md)
 
 ## 📝 Fluxos de Usuários
 
