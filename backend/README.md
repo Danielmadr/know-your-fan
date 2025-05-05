@@ -1,98 +1,208 @@
+# Know Your Fan - Backend
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Descrição
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+**Know Your Fan** é uma API desenvolvida com o framework [NestJS](https://nestjs.com/) para autenticação e gerenciamento de fãs de esports. O projeto utiliza MongoDB como banco de dados e integra serviços de análise de dados com IA para enriquecer os perfis dos fãs.
 
-## Description
+## Funcionalidades
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- **Gerenciamento de Fãs**: Criação e armazenamento de perfis de fãs com dados pessoais e preferências.
+- **Autenticação**: Login seguro para fãs.
+- **Integração com IA**: Envio de dados e arquivos para análise por um serviço de IA.
+- **Documentação com Swagger**: Endpoints documentados para fácil integração.
 
-## Project setup
+---
 
-```bash
-$ npm install
+## Tecnologias Utilizadas
+
+- **Node.js**: Ambiente de execução.
+- **NestJS**: Framework para construção de APIs escaláveis.
+- **MongoDB**: Banco de dados NoSQL.
+- **Mongoose**: ODM para MongoDB.
+- **Axios**: Cliente HTTP para integração com serviços externos.
+- **Swagger**: Documentação interativa da API.
+- **Multer**: Upload de arquivos.
+
+---
+
+## Instalação
+
+1. Clone o repositório:
+
+   ```bash
+   git clone https://github.com/seu-usuario/know-your-fan.git
+   cd know-your-fan/backend
+   ```
+
+2. Instale as dependências:
+
+   ```bash
+   npm install
+   ```
+
+3. Configure as variáveis de ambiente:
+
+   Crie um arquivo `.env` na raiz do projeto e adicione as seguintes variáveis:
+
+   ```env
+   MONGODB_URI=mongodb://localhost:27017/know-your-fan
+   ```
+
+---
+
+## Uso
+
+### Executar o projeto
+
+- **Modo de desenvolvimento**:
+
+  ```bash
+  npm run start:dev
+  ```
+
+- **Modo de produção**:
+
+  ```bash
+  npm run build
+  npm run start:prod
+  ```
+
+### Documentação da API
+
+Após iniciar o servidor, acesse a documentação interativa no Swagger:
+
+```
+http://localhost:4000/api
 ```
 
-## Compile and run the project
+---
 
-```bash
-# development
-$ npm run start
+## Endpoints Principais
 
-# watch mode
-$ npm run start:dev
+### **Fãs**
 
-# production mode
-$ npm run start:prod
+- **POST /fans**: Cria um novo fã com dados e arquivos.
+
+  **Exemplo de Request**:
+
+  ```bash
+  curl -X POST http://localhost:4000/fans \
+    -F "document=@/caminho/para/documento.pdf" \
+    -F "selfie=@/caminho/para/selfie.jpg" \
+    -F "fullName=João Silva" \
+    -F "nickname=jsilva" \
+    -F "email=joao.silva@example.com" \
+    -F "username=jsilva123" \
+    -F "password=senha123"
+  ```
+
+- **Resposta de Sucesso**:
+
+  ```json
+  {
+    "_id": "60d21b4667d0d8992e610c85",
+    "fullName": "João Silva",
+    "nickname": "jsilva",
+    "email": "joao.silva@example.com",
+    "username": "jsilva123",
+    "documentPath": "./uploads/document-123456789.pdf",
+    "selfiePath": "./uploads/selfie-987654321.jpg",
+    "createdAt": "2025-05-04T12:00:00.000Z",
+    "updatedAt": "2025-05-04T12:00:00.000Z"
+  }
+  ```
+
+### **Autenticação**
+
+- **POST /auth/login**: Realiza o login do fã.
+
+  **Exemplo de Request**:
+
+  ```json
+  {
+    "username": "jsilva123",
+    "password": "senha123"
+  }
+  ```
+
+- **Resposta de Sucesso**:
+
+  ```json
+  {
+    "nickname": "jsilva",
+    "personalChatbot": "Chatbot123"
+  }
+  ```
+
+---
+
+## Estrutura do Projeto
+
+```plaintext
+backend/
+├── src/
+│   ├── ai/                # Módulo de integração com IA
+│   ├── auth/              # Módulo de autenticação
+│   ├── fan/               # Módulo de gerenciamento de fãs
+│   ├── app.module.ts      # Módulo principal
+│   ├── main.ts            # Arquivo de inicialização
+├── test/                  # Testes E2E
+├── dist/                  # Build gerado (ignorado pelo Git)
+├── .env                   # Variáveis de ambiente (ignorado pelo Git)
+├── package.json           # Dependências e scripts
+├── tsconfig.json          # Configuração do TypeScript
+└── README.md              # Documentação do projeto
 ```
 
-## Run tests
+---
+
+## Testes
+
+### Executar Testes Unitários
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm run test
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### Executar Testes E2E
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+npm run test:e2e
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### Cobertura de Testes
 
-## Resources
+```bash
+npm run test:cov
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+---
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+## Contribuição
 
-## Support
+1. Faça um fork do projeto.
+2. Crie uma branch para sua feature (`git checkout -b feature/nova-feature`).
+3. Commit suas alterações (`git commit -m 'Adiciona nova feature'`).
+4. Faça o push para a branch (`git push origin feature/nova-feature`).
+5. Abra um Pull Request.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+---
 
-## Stay in touch
+## Licença
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Este projeto é licenciado sob a licença **MIT**. Consulte o arquivo [LICENSE](LICENSE) para mais detalhes.
 
-## License
+---
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+## Contato
+
+- **Autor**: Daniel
+- **Email**: daniel@example.com
+- **LinkedIn**: [linkedin.com/in/daniel](https://linkedin.com/in/daniel)
+
+---
+```

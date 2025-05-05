@@ -21,10 +21,18 @@ export async function POST(request: Request) {
     });
 
     const externalData = await externalResponse.json();
+    console.log("Dados da API externa:", externalData);
 
     // Retornar a resposta da API externa
     // @ts-expect-error: 'personalChatbot' is not defined in the global type but is dynamically added
     global.personalPrompt = externalData.personalChatbot;
+
+    if (!externalResponse.ok) {
+      return NextResponse.json(
+        { success: false, message: "Credenciais inválidas" },
+        { status: 401 }
+      );
+    }
 
     return NextResponse.json({
       success: true,
