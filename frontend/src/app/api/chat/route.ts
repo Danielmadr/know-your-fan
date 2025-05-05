@@ -35,6 +35,7 @@ export async function POST(req: Request) {
   // Configure system prompt to define the assistant's persona
   const systemPrompt = {
     role: "system",
+  // @ts-expect-error: 'personalChatbot' is not defined in the global type but is dynamically added
     content:  global.personalPrompt || standardChatPrompt,
   };
 

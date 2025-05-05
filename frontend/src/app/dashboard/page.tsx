@@ -219,7 +219,7 @@ const mockFanData = [
 // Process data for our charts
 const processData = () => {
   // 1. Games Distribution
-  const gamesData = {};
+  const gamesData: Record<string, number> = {}; // Explicitly define the type
   mockFanData.forEach((fan) => {
     gamesData[fan.favoriteGame] = (gamesData[fan.favoriteGame] || 0) + 1;
   });
@@ -230,7 +230,7 @@ const processData = () => {
   }));
 
   // 2. Fan Types Distribution
-  const fanTypesData = {};
+  const fanTypesData: Record<string, number> = {}; // Explicitly define the type
   mockFanData.forEach((fan) => {
     fanTypesData[fan.fanType] = (fanTypesData[fan.fanType] || 0) + 1;
   });
@@ -241,7 +241,7 @@ const processData = () => {
   }));
 
   // 3. Social Networks Distribution
-  const socialsData = {};
+  const socialsData: Record<string, number> = {}; // Explicitly define the type
   mockFanData.forEach((fan) => {
     fan.socials.forEach((social) => {
       socialsData[social] = (socialsData[social] || 0) + 1;
@@ -254,7 +254,7 @@ const processData = () => {
   }));
 
   // 4. Content Preferences
-  const contentData = {};
+  const contentData: Record<string, number> = {}; // Explicitly define the type
   mockFanData.forEach((fan) => {
     fan.content.forEach((content) => {
       contentData[content] = (contentData[content] || 0) + 1;
@@ -276,7 +276,7 @@ const processData = () => {
   ];
 
   // 6. Potential Revenue Distribution
-  const revenueData = {};
+  const revenueData: Record<string, number> = {}; // Explicitly define the type
   mockFanData.forEach((fan) => {
     revenueData[fan.potentialRevenue] =
       (revenueData[fan.potentialRevenue] || 0) + 1;
@@ -288,7 +288,7 @@ const processData = () => {
   }));
 
   // 7. Location Distribution (Top 5)
-  const locationData = {};
+  const locationData: Record<string, number> = {}; // Explicitly define the type
   mockFanData.forEach((fan) => {
     const state = fan.location.split("/")[1];
     locationData[state] = (locationData[state] || 0) + 1;
@@ -336,7 +336,7 @@ export default function Dashboard() {
   } = processData();
 
   // Format numbers with suffix k for thousands
-  const formatNumber = (num) => {
+  const formatNumber = (num: number) => {
     return num >= 1000 ? (num / 1000).toFixed(1) + "k" : num;
   };
 

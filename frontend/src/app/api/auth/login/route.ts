@@ -23,7 +23,7 @@ export async function POST(request: Request) {
     const externalData = await externalResponse.json();
 
     // Retornar a resposta da API externa
-
+    // @ts-expect-error: 'personalChatbot' is not defined in the global type but is dynamically added
     global.personalPrompt = externalData.personalChatbot;
 
     return NextResponse.json({
