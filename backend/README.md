@@ -1,40 +1,73 @@
-# Know Your Fan - Backend
-
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
+</p>
+<p align="center">Know Your Fan Backend API - Uma plataforma para gestão e engajamento de fãs de eSports.</p>
+<p align="center">
+<a href="https://nestjs.com" target="_blank"><img src="https://img.shields.io/badge/built%20with-NestJS-red.svg" alt="Construído com NestJS" /></a>
+<a href="https://www.mongodb.com/" target="_blank"><img src="https://img.shields.io/badge/database-MongoDB-green.svg" alt="Banco de Dados MongoDB" /></a>
+<a href="https://www.python.org/" target="_blank"><img src="https://img.shields.io/badge/AI%20services-Python-blue.svg" alt="Serviços de IA Python" /></a>
+<a href="https://fastapi.tiangolo.com/" target="_blank"><img src="https://img.shields.io/badge/AI%20API-FastAPI-teal.svg" alt="API de IA FastAPI" /></a>
 </p>
 
 ## Descrição
 
-**Know Your Fan** é uma API desenvolvida com o framework [NestJS](https://nestjs.com/) para autenticação e gerenciamento de fãs de esports. O projeto utiliza MongoDB como banco de dados e integra serviços de análise de dados com IA para enriquecer os perfis dos fãs.
+A **Know Your Fan Backend API** é um projeto baseado em NestJS que oferece um sistema backend robusto para a gestão de perfis de fãs de eSports. Ele inclui autenticação, gerenciamento de dados de fãs e integração com serviços de IA para análise de perfis. Este sistema permite que organizações compreendam melhor seus fãs, verifiquem suas identidades e criem experiências personalizadas com base em seus perfis.
 
-## Funcionalidades
+## Estrutura do Projeto
 
-- **Gerenciamento de Fãs**: Criação e armazenamento de perfis de fãs com dados pessoais e preferências.
-- **Autenticação**: Login seguro para fãs.
-- **Integração com IA**: Envio de dados e arquivos para análise por um serviço de IA.
-- **Documentação com Swagger**: Endpoints documentados para fácil integração.
+O projeto está organizado da seguinte forma:
 
----
+```
+backend/
+│
+├── src/
+│   ├── ai/                    # Integração com serviços de IA
+│   │   ├── ai.module.ts
+│   │   └── ai.service.ts
+│   ├── auth/                  # Módulo de autenticação
+│   │   ├── auth.controller.ts
+│   │   ├── auth.module.ts
+│   │   ├── auth.service.ts
+│   │   └── dto/
+│   │       └── login.dto.ts
+│   ├── fan/                   # Módulo de gerenciamento de fãs
+│   │   ├── fan.controller.ts
+│   │   ├── fan.module.ts
+│   │   ├── fan.service.ts
+│   │   ├── dto/
+│   │   │   └── create-fan.dto.ts
+│   │   └── schemas/
+│   │       └── fan.schema.ts
+│   ├── app.controller.ts      # Controlador principal
+│   ├── app.module.ts          # Módulo principal
+│   ├── app.service.ts         # Serviço principal
+│   └── main.ts                # Ponto de entrada da aplicação
+│
+└── uploads/                   # Diretório para armazenar arquivos enviados
+```
 
 ## Tecnologias Utilizadas
 
-- **Node.js**: Ambiente de execução.
-- **NestJS**: Framework para construção de APIs escaláveis.
-- **MongoDB**: Banco de dados NoSQL.
-- **Mongoose**: ODM para MongoDB.
-- **Axios**: Cliente HTTP para integração com serviços externos.
-- **Swagger**: Documentação interativa da API.
-- **Multer**: Upload de arquivos.
+* **NestJS**: Framework progressivo para aplicações Node.js do lado do servidor
+* **MongoDB**: Banco de dados NoSQL para armazenar perfis de fãs
+* **Mongoose**: Modelagem de objetos MongoDB para Node.js
+* **Swagger**: Documentação de APIs
+* **Multer**: Middleware para upload de arquivos
+* **Axios**: Cliente HTTP para comunicação com serviços de IA
 
----
+## Pré-requisitos
 
-## Instalação
+Certifique-se de ter as seguintes ferramentas instaladas:
+
+* **Node.js 16+**
+* **MongoDB** (instalação local ou string de conexão remota)
+* **NPM** ou **Yarn**
+
+## Instalação e Configuração
 
 1. Clone o repositório:
 
    ```bash
-   git clone https://github.com/seu-usuario/know-your-fan.git
+   git clone https://github.com/your-username/know-your-fan.git
    cd know-your-fan/backend
    ```
 
@@ -44,63 +77,75 @@
    npm install
    ```
 
-3. Configure as variáveis de ambiente:
+3. Crie um arquivo `.env` no diretório raiz com a seguinte variável:
 
-   Crie um arquivo `.env` na raiz do projeto e adicione as seguintes variáveis:
-
-   ```env
+   ```
    MONGODB_URI=mongodb://localhost:27017/know-your-fan
    ```
 
----
+4. Rode o servidor:
 
-## Uso
+   ```bash
+   # desenvolvimento
+   npm run start
 
-### Executar o projeto
+   # modo watch
+   npm run start:dev
 
-- **Modo de desenvolvimento**:
+   # produção
+   npm run start:prod
+   ```
 
-  ```bash
-  npm run start:dev
+   O servidor estará disponível em `http://localhost:4000`.
+
+5. Acesse a documentação Swagger:
+
+   Abra o navegador e acesse `http://localhost:4000/api` para visualizar a documentação.
+
+## Endpoints da API
+
+### 1. **Autenticação**
+
+* **Rota**: `/auth/login`
+
+* **Método**: `POST`
+
+* **Descrição**: Autentica um fã e retorna informações básicas do perfil.
+
+* **Corpo da Requisição**:
+
+  ```json
+  {
+    "username": "fan123",
+    "password": "password123"
+  }
   ```
 
-- **Modo de produção**:
+* **Resposta**:
 
-  ```bash
-  npm run build
-  npm run start:prod
+  ```json
+  {
+    "name": "João Silva",
+    "nickname": "FanNickname",
+    "personalChatbot": "Chatbot123"
+  }
   ```
 
-### Documentação da API
+### 2. **Cadastro de Fã**
 
-Após iniciar o servidor, acesse a documentação interativa no Swagger:
+* **Rota**: `/fans`
 
-```
-http://localhost:4000/api
-```
+* **Método**: `POST`
 
----
+* **Descrição**: Cria um novo perfil de fã com dados e arquivos, depois processa via serviço de IA.
 
-## Endpoints Principais
+* **Parâmetros**:
 
-### **Fãs**
+  * Dados do formulário com informações do fã
+  * Arquivo `document`: Documento de identidade
+  * Arquivo `selfie`: Foto selfie do fã
 
-- **POST /fans**: Cria um novo fã com dados e arquivos.
-
-  **Exemplo de Request**:
-
-  ```bash
-  curl -X POST http://localhost:4000/fans \
-    -F "document=@/caminho/para/documento.pdf" \
-    -F "selfie=@/caminho/para/selfie.jpg" \
-    -F "fullName=João Silva" \
-    -F "nickname=jsilva" \
-    -F "email=joao.silva@example.com" \
-    -F "username=jsilva123" \
-    -F "password=senha123"
-  ```
-
-- **Resposta de Sucesso**:
+* **Resposta**:
 
   ```json
   {
@@ -111,98 +156,112 @@ http://localhost:4000/api
     "username": "jsilva123",
     "documentPath": "./uploads/document-123456789.pdf",
     "selfiePath": "./uploads/selfie-987654321.jpg",
+    "fanType": "super fã",
+    "engagementScore": 45,
+    "contentPreference": "CS:GO",
+    "potentialRevenue": "alto",
+    "recommendationSummary": "João Silva foi classificado como super fã...",
+    "personalChatbot": "ChatbotID123",
     "createdAt": "2025-05-04T12:00:00.000Z",
     "updatedAt": "2025-05-04T12:00:00.000Z"
   }
   ```
 
-### **Autenticação**
+## Modelos de Dados
 
-- **POST /auth/login**: Realiza o login do fã.
+### Esquema de Fã
 
-  **Exemplo de Request**:
+O esquema representa um perfil de fã com os seguintes campos:
 
-  ```json
-  {
-    "username": "jsilva123",
-    "password": "senha123"
-  }
-  ```
+* **Informações Básicas**:
 
-- **Resposta de Sucesso**:
+  * `fullName`: Nome completo
+  * `nickname`: Apelido
+  * `email`: Email
+  * `username`: Nome de usuário
+  * `password`: Senha
+  * `cpfDisplay`: CPF formatado
+  * `cpf`: CPF sem formatação
+  * `location`: Localização
 
-  ```json
-  {
-    "nickname": "jsilva",
-    "personalChatbot": "Chatbot123"
-  }
-  ```
+* **Preferências e Interesses**:
 
----
+  * `socials`: Redes sociais
+  * `ecommerce`: Interações com e-commerce
+  * `content`: Conteúdo consumido
+  * `influencers`: Influenciadores favoritos
+  * `events`: Eventos favoritos
+  * `favoriteGame`: Jogo favorito
+  * `instagram`: Instagram
+  * `x`: X (antigo Twitter)
+  * `others`: Outras redes
 
-## Estrutura do Projeto
+* **Arquivos**:
 
-```plaintext
-backend/
-├── src/
-│   ├── ai/                # Módulo de integração com IA
-│   ├── auth/              # Módulo de autenticação
-│   ├── fan/               # Módulo de gerenciamento de fãs
-│   ├── app.module.ts      # Módulo principal
-│   ├── main.ts            # Arquivo de inicialização
-├── test/                  # Testes E2E
-├── dist/                  # Build gerado (ignorado pelo Git)
-├── .env                   # Variáveis de ambiente (ignorado pelo Git)
-├── package.json           # Dependências e scripts
-├── tsconfig.json          # Configuração do TypeScript
-└── README.md              # Documentação do projeto
-```
+  * `documentPath`: Caminho do documento de identidade
+  * `selfiePath`: Caminho da selfie
 
----
+* **Dados de Análise de IA**:
+
+  * `documentStatus`: Status da verificação do documento
+  * `documentReport`: Relatório da verificação
+  * `selfieStatus`: Status da verificação da selfie
+  * `selfieMatchScore`: Similaridade da selfie
+  * `fanStatus`: Status de verificação do fã
+  * `fanType`: Classificação do fã
+  * `engagementScore`: Pontuação de engajamento
+  * `contentPreference`: Preferência de conteúdo
+  * `potentialRevenue`: Potencial de receita
+  * `recommendationSummary`: Sumário de recomendação
+  * `personalChatbot`: ID do chatbot pessoal
+
+## Integração com IA
+
+O backend integra com um serviço de IA para analisar os perfis dos fãs. A IA realiza:
+
+1. **Verificação de documento**: Validação do documento de identidade
+2. **Reconhecimento facial**: Comparar selfie com foto do documento
+3. **Análise de fã**: Avalia dados para determinar engajamento, preferências e potencial de receita
 
 ## Testes
 
-### Executar Testes Unitários
+Execute os testes com os seguintes comandos:
 
 ```bash
+# testes unitários
 npm run test
-```
 
-### Executar Testes E2E
-
-```bash
+# testes end-to-end
 npm run test:e2e
-```
 
-### Cobertura de Testes
-
-```bash
+# cobertura de testes
 npm run test:cov
 ```
 
----
+## Deploy
 
-## Contribuição
+Para implantação em produção:
 
-1. Faça um fork do projeto.
-2. Crie uma branch para sua feature (`git checkout -b feature/nova-feature`).
-3. Commit suas alterações (`git commit -m 'Adiciona nova feature'`).
-4. Faça o push para a branch (`git push origin feature/nova-feature`).
-5. Abra um Pull Request.
+1. Defina variáveis de ambiente adequadas
+2. Configure a conexão com MongoDB para produção
+3. Estabeleça um armazenamento de arquivos (ex: nuvem)
+4. Habilite CORS se necessário
+5. Configure autenticação/autorizacão adequadas
 
----
+## Contribuições
+
+Contribuições são bem-vindas! Siga os passos:
+
+1. Fork o repositório
+2. Crie uma branch: `git checkout -b minha-feature`
+3. Faça commit: `git commit -m 'Minha nova feature'`
+4. Push: `git push origin minha-feature`
+5. Abra um Pull Request
 
 ## Licença
 
-Este projeto é licenciado sob a licença **MIT**. Consulte o arquivo [LICENSE](LICENSE) para mais detalhes.
-
----
+Este projeto está sob a licença MIT.
 
 ## Contato
 
-- **Autor**: Daniel
-- **Email**: daniel@example.com
-- **LinkedIn**: [linkedin.com/in/daniel](https://linkedin.com/in/daniel)
-
----
-```
+Para dúvidas ou sugestões, entre em contato: `contact@know-your-fan.com`
